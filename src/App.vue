@@ -1,14 +1,42 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
+    <div v-if="isAuthenticated">
+      <div id="nav">
+        <router-link to="/">Home</router-link> |
+        <a href="#" @click.prevent="logout">logout</a>
+      </div>
+    </div>
+
+    <div v-else>
       <router-link to="/login">login</router-link>
     </div>
+
     <div class="container">
       <router-view/>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  data: function(){
+    return{
+      isAuthenticated: this.$session.has('jwt')
+    } 
+  },
+  methods: {
+    logout: function(){
+      this.$session.destroy()
+      this.$router.push('/login')
+    }
+  },
+  updated: function(){
+    this.isAuthenticated = this.$session.has('jwt')
+  }
+}
+
+</script>
 
 <style>
 #app {
