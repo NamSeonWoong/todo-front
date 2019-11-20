@@ -22,17 +22,20 @@ export default {
   name: 'App',
   data: function(){
     return{
-      isAuthenticated: this.$session.has('jwt')
+      // isAuthenticated: this.$session.has('jwt')
+      isAuthenticated: this.$store.getters.isAuthenticated
     } 
   },
   methods: {
     logout: function(){
-      this.$session.destroy()
+      // this.$session.destroy()
+      // this.$router.push('/login')
+      this.$store.dispatch('logout')
       this.$router.push('/login')
     }
   },
   updated: function(){
-    this.isAuthenticated = this.$session.has('jwt')
+    this.isAuthenticated = this.$store.getters.isAuthenticated
   }
 }
 
